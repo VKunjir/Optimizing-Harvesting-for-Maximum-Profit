@@ -1,6 +1,7 @@
 import numpy as np
 import pickle
 import pandas as pd
+import calendar
 
 import streamlit as st
 
@@ -48,14 +49,16 @@ def main():
     st.write("Enter the agricultural good, the year, and the number of top prices to predict.")
     
     agriculturalGoods = st.selectbox("Agricultural Good", agricultural_goods_list)  # Input for crop name
-    year = st.select_slider("Year", options=range(2023, 2031))  # Input for year
+    year = st.select_slider("Year", options=range(2021, 2025))  # Input for year
     top_n = st.slider("Number of Top Prices", min_value=1, max_value=12, value=5)  # Slider for selecting top prices
 
     if st.button("Predict"):
         top_prices, top_months = predict_top_prices(agriculturalGoods, year, top_n)
         st.write(f"The top {top_n} months for harvesting {agriculturalGoods} in {year} are:")
         for month, price in zip(top_months, top_prices):
-            st.write(f"Month {month}: Max Price={price[1]}, Min Price={price[0]}")
+            month_name = calendar.month_name[month]
+            st.write(f"{month_name}: Max Price={price[1]}, Min Price={price[0]}")
+
 
 if __name__ == '__main__':
     main()
