@@ -1,5 +1,4 @@
 numpy
 pickle4
 pandas
-calendar
 streamlit
