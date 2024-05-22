@@ -2,6 +2,7 @@ import numpy as np
 import pickle 
 import pandas as pd
 import calendar
+import time 
 
 import streamlit as st
 from sklearn.compose import ColumnTransformer
@@ -70,6 +71,7 @@ def predict_top_prices(agriculturalGoods, year, top_n):
         print("Error during prediction:", e)
         return None, None
 
+
 def main():
     st.title("Optimizing Harvesting for Maximum Profit")
     st.write("Enter the agricultural good, the year, and the number of top prices to predict.")
@@ -79,7 +81,12 @@ def main():
     top_n = st.slider("Number of Top Prices", min_value=1, max_value=12, value=5)  # Slider for selecting top prices
 
     if st.button("Predict"):
-        top_prices, top_months = predict_top_prices(agriculturalGoods, year, top_n)
+        # Display spinner while waiting for prediction results
+        with st.spinner("Predicting..."):
+            # Simulate delay (remove this line in actual implementation)
+            time.sleep(5)
+            
+            top_prices, top_months = predict_top_prices(agriculturalGoods, year, top_n)
         
         if top_months is not None and top_prices is not None:
             st.write(f"The top {top_n} months for harvesting {agriculturalGoods} in {year} are:")
@@ -87,7 +94,8 @@ def main():
                 month_name = calendar.month_name[month]
                 st.write(f"{month_name}: Max Price={price[1]}, Min Price={price[0]}")
         else:
-            st.write("Error occurred during prediction. Please try again.")
+            st.error("Error occurred during prediction. Please try again.")
+
 
 
 if __name__ == '__main__':
