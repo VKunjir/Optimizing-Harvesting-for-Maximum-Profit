@@ -4,13 +4,16 @@ import pandas as pd
 import calendar
 
 import streamlit as st
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestRegressor
 
 # Load the trained regressor model
-pickle_in = open("regressor.pkl", "rb")
-regressor = pickle.load(pickle_in)
+with open("regressor.pkl", "rb") as pickle_in:
+    regressor = pickle.load(pickle_in)
 
 # Load the fitted ColumnTransformer
-column_transformer = pickle.load(open("column_transformer.pkl", "rb"))
+with open("column_transformer.pkl", "rb") as ct_pickle_in:
+    column_transformer = pickle.load(ct_pickle_in)
 
 # Define the list of agricultural goods
 agricultural_goods_list = [
