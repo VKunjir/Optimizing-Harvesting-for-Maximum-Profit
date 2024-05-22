@@ -6,14 +6,14 @@ import calendar
 import streamlit as st
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
+import joblib
 
 # Load the trained regressor model
 with open("regressor.pkl", "rb") as pickle_in:
     regressor = pickle.load(pickle_in)
 
 # Load the fitted ColumnTransformer
-with open("column_transformer.pkl", "rb") as ct_pickle_in:
-    column_transformer = pickle.load(ct_pickle_in)
+column_transformer = joblib.load("column_transformer.pkl")
 
 # Define the list of agricultural goods
 agricultural_goods_list = [
