@@ -38,14 +38,38 @@ agricultural_goods_list = [
 ]
 
 def predict_top_prices(agriculturalGoods, year, top_n):
-    year_ = pd.DataFrame({'AgriculturalGoods': [agriculturalGoods] * 12, 'Month': range(1, 13), 'Year': [year] * 12})
-    year_encoded = column_transformer.transform(year_)
-    predicted_prices = regressor.predict(year_encoded)
-    top_n = min(top_n, 12)
-    top_prices_indices = np.argsort(predicted_prices[:, 1])[::-1][:top_n]
-    top_prices = predicted_prices[top_prices_indices]
-    top_months = top_prices_indices + 1
-    return top_prices, top_months
+    # Create a DataFrame with the specified agricultural good, year, and months
+    year_data = {
+        'AgriculturalGoods': [agriculturalGoods] * 12,
+        'Month': range(1, 13),
+        'Year': [year] * 12
+    }
+    year_df = pd.DataFrame(year_data)
+    
+    # Print input data (for debugging)
+    print("Input data (year_df):")
+    print(year_df)
+    
+    try:
+        # Transform the input data using the pre-fitted ColumnTransformer
+        year_encoded = column_transformer.transform(year_df)
+        
+        # Predict prices using the trained regressor
+        predicted_prices = regressor.predict(year_encoded)
+        
+        # Get top prices and months
+        top_n = min(top_n, 12)
+        top_prices_indices = np.argsort(predicted_prices[:, 1])[::-1][:top_n]
+        top_prices = predicted_prices[top_prices_indices]
+        top_months = top_prices_indices + 1
+        
+        return top_prices, top_months
+    
+    except Exception as e:
+        # Print exception message (for debugging)
+        print("Error during prediction:", e)
+        return None, None
+
 
 def main():
     st.title("Optimizing Harvesting for Maximum Profit")
