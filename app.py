@@ -70,7 +70,6 @@ def predict_top_prices(agriculturalGoods, year, top_n):
         print("Error during prediction:", e)
         return None, None
 
-
 def main():
     st.title("Optimizing Harvesting for Maximum Profit")
     st.write("Enter the agricultural good, the year, and the number of top prices to predict.")
@@ -81,10 +80,14 @@ def main():
 
     if st.button("Predict"):
         top_prices, top_months = predict_top_prices(agriculturalGoods, year, top_n)
-        st.write(f"The top {top_n} months for harvesting {agriculturalGoods} in {year} are:")
-        for month, price in zip(top_months, top_prices):
-            month_name = calendar.month_name[month]
-            st.write(f"{month_name}: Max Price={price[1]}, Min Price={price[0]}")
+        
+        if top_months is not None and top_prices is not None:
+            st.write(f"The top {top_n} months for harvesting {agriculturalGoods} in {year} are:")
+            for month, price in zip(top_months, top_prices):
+                month_name = calendar.month_name[month]
+                st.write(f"{month_name}: Max Price={price[1]}, Min Price={price[0]}")
+        else:
+            st.write("Error occurred during prediction. Please try again.")
 
 
 if __name__ == '__main__':
