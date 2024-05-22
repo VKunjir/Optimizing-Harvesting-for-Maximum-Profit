@@ -49,7 +49,7 @@ def main():
     st.write("Enter the agricultural good, the year, and the number of top prices to predict.")
     
     agriculturalGoods = st.selectbox("Agricultural Good", agricultural_goods_list)  # Input for crop name
-    year = st.select_slider("Year", options=range(2021, 2025))  # Input for year
+    year = st.select_slider("Year", options=range(2021, 2026))  # Input for year
     top_n = st.slider("Number of Top Prices", min_value=1, max_value=12, value=5)  # Slider for selecting top prices
 
     if st.button("Predict"):
