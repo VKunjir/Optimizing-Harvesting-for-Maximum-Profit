@@ -2,7 +2,7 @@ import numpy as np
 import pickle 
 import pandas as pd
 import calendar
-import time 
+import time
 
 import streamlit as st
 from sklearn.compose import ColumnTransformer
