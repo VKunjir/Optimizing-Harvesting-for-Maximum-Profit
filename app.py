@@ -9,6 +9,28 @@ from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 import joblib
 
+# Custom CSS for dark theme
+st.markdown(
+    """
+    <style>
+    .main {
+        background-color: #0d0d0d;
+        color: white;
+    }
+    .stSlider > div > div > div > div {
+        color: white;
+    }
+    .css-18e3th9 {
+        color: white;
+    }
+    .st-cg {
+        background-color: #0d0d0d;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Load the trained regressor model
 with open("regressor.pkl", "rb") as pickle_in:
     regressor = pickle.load(pickle_in)
@@ -74,11 +96,11 @@ def predict_top_prices(agriculturalGoods, year, top_n):
 
 def main():
     st.title("Optimizing Harvesting for Maximum Profit")
-    st.write("Enter the agricultural good, the year, and the number of top prices to predict.")
+    st.write("Enter the agricultural good, the year, and the number of months for price prediction.")
     
-    agriculturalGoods = st.selectbox("Agricultural Good", agricultural_goods_list)  # Input for crop name
-    year = st.select_slider("Year", options=range(2021, 2026))  # Input for year
-    top_n = st.slider("Number of Top Prices", min_value=1, max_value=12, value=5)  # Slider for selecting top prices
+    agriculturalGoods = st.selectbox("Select agricultural good:", agricultural_goods_list)  # Input for crop name
+    year = st.select_slider("Select the year for prediction:", options=range(2021, 2026), value=2024)  # Input for year
+    top_n = st.slider("Select the number of months for price prediction:", min_value=1, max_value=12, value=5)  # Slider for selecting top prices
 
     if st.button("Predict"):
         # Display spinner while waiting for prediction results
@@ -90,13 +112,17 @@ def main():
         
         if top_months is not None and top_prices is not None:
             st.write(f"The top {top_n} months for harvesting {agriculturalGoods} in {year} are:")
-            for month, price in zip(top_months, top_prices):
-                month_name = calendar.month_name[month]
-                st.write(f"{month_name}: Max Price={price[1]}, Min Price={price[0]}")
+            
+            # Prepare data for table
+            table_data = {
+                "Month": [calendar.month_name[month] for month in top_months],
+                "Max Price": [f"{price[1]:,.1f}" for price in top_prices],
+                "Min Price": [f"{price[0]:,.1f}" for price in top_prices]
+            }
+            df = pd.DataFrame(table_data)
+            st.table(df)
         else:
             st.error("Error occurred during prediction. Please try again.")
-
-
 
 if __name__ == '__main__':
     main()
