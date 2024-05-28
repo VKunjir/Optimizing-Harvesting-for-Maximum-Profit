@@ -3,7 +3,8 @@
 
 [Please follow this link to access the project.](https://optimizing-harvesting-for-maximum-profit-3zr7oqsgj7dbmfqkereyk.streamlit.app/)
 
-![image](https://github.com/VKunjir/Optimizing-Harvesting-for-Maximum-Profit/assets/98226339/4b308533-0219-471f-8233-0932f3f02f58)
+![image](https://github.com/VKunjir/Optimizing-Harvesting-for-Maximum-Profit/assets/98226339/df4e9287-0398-4a8b-99bf-e3ab24623885)
+
 
 
 ## Overview
